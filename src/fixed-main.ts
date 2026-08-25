@@ -4,11 +4,11 @@ const normalizeRoute = () => {
   const path = location.hash.replace(/^#/, '') || '/';
   const parts = path.split('/').filter(Boolean);
   if (parts[0] === 'training' && parts[2] === 'register') {
-    location.hash = `#/training/register/${parts[1]}`;
+    history.replaceState(null, '', `${location.pathname}${location.search}#/training/register/${parts[1]}`);
     return true;
   }
   if (parts[0] === 'admin' && parts[1] === 'dashboard') {
-    location.hash = '#/admin';
+    history.replaceState(null, '', `${location.pathname}${location.search}#/admin`);
     return true;
   }
   return false;
@@ -48,18 +48,18 @@ const attachFixes = () => {
   });
 };
 
-const installFixes = () => {
+const boot = async () => {
+  const changed = normalizeRoute();
+  await import('./main');
   attachFixes();
+  if (changed) window.dispatchEvent(new HashChangeEvent('hashchange'));
   window.addEventListener('hashchange', () => {
     setTimeout(() => {
-      normalizeRoute();
+      const changedAgain = normalizeRoute();
+      if (changedAgain) window.dispatchEvent(new HashChangeEvent('hashchange'));
       attachFixes();
     }, 0);
-  }, { once: false });
+  });
 };
 
-if (!normalizeRoute()) {
-  import('./main').then(() => {
-    installFixes();
-  });
-}
+void boot();
