@@ -27,7 +27,30 @@ const mountHomePage = () => {
   if (currentHome && replacement) currentHome.replaceWith(replacement);
 };
 
+const addHomeNavLink = () => {
+  const addLink = (selector: string, mobile = false) => {
+    const nav = document.querySelector<HTMLElement>(selector);
+    if (!nav || nav.querySelector('a[href="#/"]')) return;
+
+    const link = document.createElement('a');
+    link.href = '#/';
+    link.textContent = 'Home';
+    link.setAttribute('aria-label', 'Home');
+
+    if (mobile) {
+      nav.prepend(link);
+    } else {
+      nav.prepend(link);
+    }
+  };
+
+  addLink('.desktop-nav');
+  addLink('#mobileNav', true);
+};
+
 const attachFixes = () => {
+  addHomeNavLink();
+
   document.querySelectorAll<HTMLButtonElement>('.segmented button').forEach((button) => {
     button.addEventListener('click', () => {
       const group = button.parentElement;
