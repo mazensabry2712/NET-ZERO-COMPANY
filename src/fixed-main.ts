@@ -35,24 +35,33 @@ const mountHomePage = () => {
   if (currentHome && replacement) currentHome.replaceWith(replacement);
 };
 
-const addHomeNavLink = () => {
-  const addLink = (selector: string) => {
-    const nav = document.querySelector<HTMLElement>(selector);
-    if (!nav || nav.querySelector('a[href="#/"]')) return;
+const renderFrontendNav = () => {
+  const links = [
+    ['Home', '#/'],
+    ['Products', '#/products'],
+    ['Services', '#/services'],
+    ['Company', '#/company'],
+    ['Careers', '#/careers'],
+    ['Training', '#/training'],
+    ['Insights', '#/insights'],
+    ['Contact', '#/contact'],
+  ];
 
-    const link = document.createElement('a');
-    link.href = '#/';
-    link.textContent = 'Home';
-    link.setAttribute('aria-label', 'Home');
-    nav.prepend(link);
+  const buildNav = (selector: string) => {
+    const nav = document.querySelector<HTMLElement>(selector);
+    if (!nav) return;
+
+    nav.innerHTML = links
+      .map(([label, href]) => `<a href="${href}" aria-label="${label}">${label}</a>`)
+      .join('');
   };
 
-  addLink('.desktop-nav');
-  addLink('#mobileNav');
+  buildNav('.desktop-nav');
+  buildNav('#mobileNav');
 };
 
 const attachFixes = () => {
-  addHomeNavLink();
+  renderFrontendNav();
 
   document.querySelectorAll<HTMLButtonElement>('.segmented button').forEach((button) => {
     button.addEventListener('click', () => {
