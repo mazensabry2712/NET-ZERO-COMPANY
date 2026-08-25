@@ -18,16 +18,17 @@ mobileNav?.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
   link.addEventListener('click', () => setMenu(false));
 });
 
-const observer = 'IntersectionObserver' in window
-  ? new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 })
-  : null;
+let observer: IntersectionObserver | null = null;
+if ('IntersectionObserver' in window) {
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer?.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+}
 
 document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => {
   if (observer) observer.observe(el);
