@@ -39,6 +39,13 @@ const mountHomePage = () => {
   }
 };
 
+const fixAssetUrls = () => {
+  const base = import.meta.env.BASE_URL;
+  document.querySelectorAll<HTMLImageElement>('img[src="/logo.png"]').forEach((img) => {
+    img.src = `${base}logo.png`;
+  });
+};
+
 const renderFrontendNav = () => {
   const links = [
     ['Home', '#/'],
@@ -185,6 +192,7 @@ const attachFixes = () => {
   });
 
   bindForms();
+  fixAssetUrls();
 };
 
 const refreshRouteFixes = () => {
