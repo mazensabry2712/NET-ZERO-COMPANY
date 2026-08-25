@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Net Zero — industrial energy technology platform concept." />
-    <meta name="theme-color" content="#0b0d10" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Net Zero — industrial energy technology platform." />
+    <meta name="theme-color" content="#f5f5f0" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/png" href="/logo.png" />
     <title>Net Zero — Energy, Engineered.</title>
   </head>
   <body>
@@ -12,7 +14,7 @@
       <header class="site-header">
         <div class="container nav-wrap">
           <a class="brand" href="#top" aria-label="Net Zero home">
-            <img src="./public/logo.png" alt="Net Zero Company" class="brand-logo" />
+            <img src="/logo.png" alt="Net Zero Company" class="brand-logo" width="96" height="56" />
           </a>
           <nav class="desktop-nav" aria-label="Primary navigation">
             <a href="#products">Products</a>
@@ -21,7 +23,7 @@
             <a href="#careers">Careers</a>
             <a href="#insights">Insights</a>
           </nav>
-          <a class="nav-cta" href="#contact">Talk to us <span>↗</span></a>
+          <a class="nav-cta" href="#contact">Talk to us <span aria-hidden="true">↗</span></a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Open navigation">☰</button>
         </div>
         <div id="mobileNav" class="mobile-nav" hidden>
@@ -43,18 +45,16 @@
               <h1>Energy,<br /><span>Engineered.</span></h1>
               <p class="hero-lead">From high-performance products to field-ready services, Net Zero connects the technology, people and expertise that move energy systems forward.</p>
               <div class="hero-actions">
-                <a class="btn btn-primary" href="#products">Explore products <span>↗</span></a>
-                <a class="text-link" href="#company">Discover Net Zero <span>→</span></a>
+                <a class="btn btn-primary" href="#products">Explore products <span aria-hidden="true">↗</span></a>
+                <a class="text-link" href="#company">Discover Net Zero <span aria-hidden="true">→</span></a>
               </div>
               <div class="hero-meta">
                 <span>Manufacturing</span><span>Engineering</span><span>Service</span>
               </div>
             </div>
 
-            <div class="hero-visual reveal reveal-delay">
-              <div class="orbit orbit-a"></div>
-              <div class="orbit orbit-b"></div>
-              <div class="orbit orbit-c"></div>
+            <div class="hero-visual reveal reveal-delay" aria-hidden="true">
+              <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
               <div class="core-card">
                 <div class="core-topline"><span>NET ZERO / CORE</span><span>01 — 04</span></div>
                 <div class="core-mark">NZ<span>+</span></div>
@@ -63,148 +63,44 @@
               </div>
               <div class="floating-chip chip-1">PV Systems <span>↗</span></div>
               <div class="floating-chip chip-2">Industrial Automation</div>
-              <div class="floating-chip chip-3">Service & Support</div>
+              <div class="floating-chip chip-3">Service &amp; Support</div>
             </div>
           </div>
         </section>
 
         <section class="proof-strip">
           <div class="container proof-grid">
-            <div><strong>4</strong><span>Business pillars</span></div>
-            <div><strong>24/7</strong><span>Operational mindset</span></div>
-            <div><strong>01</strong><span>Unified platform</span></div>
-            <div><strong>∞</strong><span>Built to scale</span></div>
+            <div><strong>4</strong><span>Business pillars</span></div><div><strong>24/7</strong><span>Operational mindset</span></div><div><strong>01</strong><span>Unified platform</span></div><div><strong>∞</strong><span>Built to scale</span></div>
           </div>
         </section>
 
         <section id="products" class="section section-dark">
           <div class="container">
-            <div class="section-head reveal">
-              <div>
-                <div class="eyebrow"><span class="dot"></span> Factory & Products</div>
-                <h2>Built for the <span>real world.</span></h2>
-              </div>
-              <p>One catalog, one source of truth. Explore products, models and technical details through a clean industrial product experience.</p>
+            <div class="section-head reveal"><div><div class="eyebrow"><span class="dot"></span> Factory &amp; Products</div><h2>Built for the <span>real world.</span></h2></div><p>One catalog, one source of truth. Explore products, models and technical details through a clean industrial product experience.</p></div>
+            <div class="filter-row reveal" role="group" aria-label="Product filters">
+              <button class="filter active" data-filter="all" type="button">All</button><button class="filter" data-filter="power" type="button">Power</button><button class="filter" data-filter="storage" type="button">Storage</button><button class="filter" data-filter="control" type="button">Control</button>
             </div>
-
-            <div class="filter-row reveal">
-              <button class="filter active" data-filter="all">All</button>
-              <button class="filter" data-filter="power">Power</button>
-              <button class="filter" data-filter="storage">Storage</button>
-              <button class="filter" data-filter="control">Control</button>
-            </div>
-
             <div class="product-grid">
-              <article class="product-card reveal" data-category="power">
-                <div class="product-art product-art-inverter"><div class="device device-1"></div><div class="device device-2"></div></div>
-                <div class="product-info"><div class="tag">Power</div><h3>NZ PowerCore X</h3><p>Commercial conversion platform with modular architecture.</p><a href="#contact">View model <span>↗</span></a></div>
-              </article>
-              <article class="product-card reveal reveal-delay-1" data-category="storage">
-                <div class="product-art product-art-battery"><div class="battery-pack"><span></span><span></span><span></span><span></span></div></div>
-                <div class="product-info"><div class="tag">Storage</div><h3>NZ Store M</h3><p>Flexible energy storage for commercial and industrial sites.</p><a href="#contact">View model <span>↗</span></a></div>
-              </article>
-              <article class="product-card reveal reveal-delay-2" data-category="control">
-                <div class="product-art product-art-controller"><div class="controller"><i></i><i></i><i></i><i></i><b></b></div></div>
-                <div class="product-info"><div class="tag">Control</div><h3>NZ Flow Hub</h3><p>Digital monitoring, control and energy orchestration layer.</p><a href="#contact">View model <span>↗</span></a></div>
-              </article>
+              <article class="product-card reveal" data-category="power"><div class="product-art product-art-inverter"><div class="device device-1"></div><div class="device device-2"></div></div><div class="product-info"><div class="tag">Power</div><h3>NZ PowerCore X</h3><p>Commercial conversion platform with modular architecture.</p><a href="#contact">View model <span>↗</span></a></div></article>
+              <article class="product-card reveal reveal-delay-1" data-category="storage"><div class="product-art product-art-battery"><div class="battery-pack"><span></span><span></span><span></span><span></span></div></div><div class="product-info"><div class="tag">Storage</div><h3>NZ Store M</h3><p>Flexible energy storage for commercial and industrial sites.</p><a href="#contact">View model <span>↗</span></a></div></article>
+              <article class="product-card reveal reveal-delay-2" data-category="control"><div class="product-art product-art-controller"><div class="controller"><i></i><i></i><i></i><i></i><b></b></div></div><div class="product-info"><div class="tag">Control</div><h3>NZ Flow Hub</h3><p>Digital monitoring, control and energy orchestration layer.</p><a href="#contact">View model <span>↗</span></a></div></article>
             </div>
           </div>
         </section>
 
-        <section id="company" class="section split-section">
-          <div class="container split-grid">
-            <div class="split-statement reveal">
-              <div class="eyebrow"><span class="dot"></span> Who we are</div>
-              <div class="number-badge">02</div>
-              <h2>A group designed around <span>delivery.</span></h2>
-            </div>
-            <div class="split-copy reveal reveal-delay">
-              <p class="large-copy">Net Zero brings factory capability, engineering know-how and field services under one digital roof — so customers can move from specification to operation without losing momentum.</p>
-              <div class="mini-stats">
-                <div><span>01</span><strong>Manufacture</strong><small>Products & models</small></div>
-                <div><span>02</span><strong>Deploy</strong><small>Installation & commissioning</small></div>
-                <div><span>03</span><strong>Support</strong><small>Maintenance & expertise</small></div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <section id="company" class="section split-section"><div class="container split-grid"><div class="split-statement reveal"><div class="eyebrow"><span class="dot"></span> Who we are</div><div class="number-badge">02</div><h2>A group designed around <span>delivery.</span></h2></div><div class="split-copy reveal reveal-delay"><p class="large-copy">Net Zero brings factory capability, engineering know-how and field services under one digital roof — so customers can move from specification to operation without losing momentum.</p><div class="mini-stats"><div><span>01</span><strong>Manufacture</strong><small>Products &amp; models</small></div><div><span>02</span><strong>Deploy</strong><small>Installation &amp; commissioning</small></div><div><span>03</span><strong>Support</strong><small>Maintenance &amp; expertise</small></div></div></div></div></section>
 
-        <section id="services" class="section section-soft">
-          <div class="container">
-            <div class="section-head reveal">
-              <div>
-                <div class="eyebrow"><span class="dot"></span> Company & Services</div>
-                <h2>One partner. <span>Every stage.</span></h2>
-              </div>
-              <p>Service modules are connected to the products they support — making every handover and maintenance path easier to understand.</p>
-            </div>
-            <div class="service-list">
-              <a class="service-row reveal" href="#contact"><span class="service-index">01</span><span class="service-name">Engineering & Consulting</span><span class="service-desc">System design, sizing and technical planning</span><span class="service-arrow">↗</span></a>
-              <a class="service-row reveal reveal-delay-1" href="#contact"><span class="service-index">02</span><span class="service-name">Installation & Commissioning</span><span class="service-desc">Field-ready implementation with clear workflows</span><span class="service-arrow">↗</span></a>
-              <a class="service-row reveal reveal-delay-2" href="#contact"><span class="service-index">03</span><span class="service-name">Maintenance & Support</span><span class="service-desc">Lifecycle care, diagnostics and technical support</span><span class="service-arrow">↗</span></a>
-              <a class="service-row reveal reveal-delay-3" href="#contact"><span class="service-index">04</span><span class="service-name">Training & Enablement</span><span class="service-desc">Programs built for teams, partners and professionals</span><span class="service-arrow">↗</span></a>
-            </div>
-          </div>
-        </section>
+        <section id="services" class="section section-soft"><div class="container"><div class="section-head reveal"><div><div class="eyebrow"><span class="dot"></span> Company &amp; Services</div><h2>One partner. <span>Every stage.</span></h2></div><p>Service modules are connected to the products they support — making every handover and maintenance path easier to understand.</p></div><div class="service-list"><a class="service-row reveal" href="#contact"><span class="service-index">01</span><span class="service-name">Engineering &amp; Consulting</span><span class="service-desc">System design, sizing and technical planning</span><span class="service-arrow">↗</span></a><a class="service-row reveal reveal-delay-1" href="#contact"><span class="service-index">02</span><span class="service-name">Installation &amp; Commissioning</span><span class="service-desc">Field-ready implementation with clear workflows</span><span class="service-arrow">↗</span></a><a class="service-row reveal reveal-delay-2" href="#contact"><span class="service-index">03</span><span class="service-name">Maintenance &amp; Support</span><span class="service-desc">Lifecycle care, diagnostics and technical support</span><span class="service-arrow">↗</span></a><a class="service-row reveal reveal-delay-3" href="#contact"><span class="service-index">04</span><span class="service-name">Training &amp; Enablement</span><span class="service-desc">Programs built for teams, partners and professionals</span><span class="service-arrow">↗</span></a></div></div></section>
 
-        <section id="careers" class="section careers-section">
-          <div class="container careers-card reveal">
-            <div class="career-orb" aria-hidden="true"></div>
-            <div>
-              <div class="eyebrow"><span class="dot"></span> Careers & Training</div>
-              <h2>Build the systems<br />that power <span>tomorrow.</span></h2>
-              <p>Find your next role, join a training program, or bring your expertise into a team that values technical depth and execution.</p>
-              <div class="hero-actions"><a class="btn btn-dark" href="#contact">See opportunities <span>↗</span></a></div>
-            </div>
-            <div class="career-list">
-              <div><span>Design Engineer</span><small>Engineering · Full time</small><b>→</b></div>
-              <div><span>Field Service Specialist</span><small>Service · Full time</small><b>→</b></div>
-              <div><span>Technical Training</span><small>Academy · Applications open</small><b>→</b></div>
-            </div>
-          </div>
-        </section>
+        <section id="careers" class="section careers-section"><div class="container careers-card reveal"><div class="career-orb" aria-hidden="true"></div><div><div class="eyebrow"><span class="dot"></span> Careers &amp; Training</div><h2>Build the systems<br />that power <span>tomorrow.</span></h2><p>Find your next role, join a training program, or bring your expertise into a team that values technical depth and execution.</p><div class="hero-actions"><a class="btn btn-dark" href="#contact">See opportunities <span>↗</span></a></div></div><div class="career-list"><div><span>Design Engineer</span><small>Engineering · Full time</small><b>→</b></div><div><span>Field Service Specialist</span><small>Service · Full time</small><b>→</b></div><div><span>Technical Training</span><small>Academy · Applications open</small><b>→</b></div></div></div></section>
 
-        <section id="insights" class="section">
-          <div class="container">
-            <div class="section-head reveal">
-              <div>
-                <div class="eyebrow"><span class="dot"></span> Articles & Insights</div>
-                <h2>Ideas that move <span>industry.</span></h2>
-              </div>
-              <a class="text-link" href="#contact">View all insights <span>→</span></a>
-            </div>
-            <div class="insight-grid">
-              <article class="insight-card reveal"><div class="insight-top"><span>ENERGY</span><span>04 MIN READ</span></div><div class="insight-graphic g1"></div><h3>Designing resilient energy systems for growing operations</h3><a href="#contact">Read article <span>↗</span></a></article>
-              <article class="insight-card reveal reveal-delay-1"><div class="insight-top"><span>ENGINEERING</span><span>06 MIN READ</span></div><div class="insight-graphic g2"></div><h3>From product model to measurable field performance</h3><a href="#contact">Read article <span>↗</span></a></article>
-              <article class="insight-card reveal reveal-delay-2"><div class="insight-top"><span>PEOPLE</span><span>03 MIN READ</span></div><div class="insight-graphic g3"></div><h3>Why training belongs inside the energy platform</h3><a href="#contact">Read article <span>↗</span></a></article>
-            </div>
-          </div>
-        </section>
+        <section id="insights" class="section"><div class="container"><div class="section-head reveal"><div><div class="eyebrow"><span class="dot"></span> Articles &amp; Insights</div><h2>Ideas that move <span>industry.</span></h2></div><a class="text-link" href="#contact">View all insights <span>→</span></a></div><div class="insight-grid"><article class="insight-card reveal"><div class="insight-top"><span>ENERGY</span><span>04 MIN READ</span></div><div class="insight-graphic g1"></div><h3>Designing resilient energy systems for growing operations</h3><a href="#contact">Read article <span>↗</span></a></article><article class="insight-card reveal reveal-delay-1"><div class="insight-top"><span>ENGINEERING</span><span>06 MIN READ</span></div><div class="insight-graphic g2"></div><h3>From product model to measurable field performance</h3><a href="#contact">Read article <span>↗</span></a></article><article class="insight-card reveal reveal-delay-2"><div class="insight-top"><span>PEOPLE</span><span>03 MIN READ</span></div><div class="insight-graphic g3"></div><h3>Why training belongs inside the energy platform</h3><a href="#contact">Read article <span>↗</span></a></article></div></div></section>
 
-        <section id="contact" class="section contact-section">
-          <div class="container contact-card reveal">
-            <div>
-              <div class="eyebrow"><span class="dot"></span> Start a conversation</div>
-              <h2>Let’s build the next<br /><span>energy layer.</span></h2>
-            </div>
-            <div class="contact-side">
-              <p>Products, services, partnerships or careers — tell us what you are building.</p>
-              <a class="btn btn-primary" href="mailto:hello@netzero.example">hello@netzero.example <span>↗</span></a>
-            </div>
-          </div>
-        </section>
+        <section id="contact" class="section contact-section"><div class="container contact-card reveal"><div><div class="eyebrow"><span class="dot"></span> Start a conversation</div><h2>Let’s build the next<br /><span>energy layer.</span></h2></div><div class="contact-side"><p>Products, services, partnerships or careers — tell us what you are building.</p><a class="btn btn-primary" href="mailto:hello@netzero.example">hello@netzero.example <span>↗</span></a></div></div></section>
       </main>
 
-      <footer class="site-footer">
-        <div class="container footer-grid">
-          <div><img src="./public/logo.png" alt="Net Zero" class="footer-logo" /><p>Industrial energy systems, engineered for the next operating standard.</p></div>
-          <div><span class="footer-label">Explore</span><a href="#products">Products</a><a href="#services">Services</a><a href="#careers">Careers</a></div>
-          <div><span class="footer-label">Connect</span><a href="#contact">Contact</a><a href="#insights">Insights</a><a href="#company">Company</a></div>
-        </div>
-        <div class="container footer-bottom"><span>© 2026 Net Zero Company</span><span>Concept UI · Inspired by modern industrial energy platforms</span></div>
-      </footer>
+      <footer class="site-footer"><div class="container footer-grid"><div><img src="/logo.png" alt="Net Zero" class="footer-logo" width="90" height="54" /><p>Industrial energy systems, engineered for the next operating standard.</p></div><div><span class="footer-label">Explore</span><a href="#products">Products</a><a href="#services">Services</a><a href="#careers">Careers</a></div><div><span class="footer-label">Connect</span><a href="#contact">Contact</a><a href="#insights">Insights</a><a href="#company">Company</a></div></div><div class="container footer-bottom"><span>© <span data-year>2026</span> Net Zero Company</span><span>Industrial energy platform</span></div></footer>
     </div>
-    <link rel="stylesheet" href="./src/styles.css" />
-    <script defer src="./src/main.js"></script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
