@@ -54,6 +54,13 @@ const renderFrontendNav = () => {
     nav.innerHTML = links
       .map(([label, href]) => `<a href="${href}" aria-label="${label}">${label}</a>`)
       .join('');
+
+    const adminLink = document.createElement('a');
+    adminLink.href = '#/admin';
+    adminLink.textContent = 'Admin CMS';
+    adminLink.setAttribute('aria-label', 'Admin CMS');
+    adminLink.className = 'nav-admin-link';
+    nav.append(adminLink);
   };
 
   buildNav('.desktop-nav');
