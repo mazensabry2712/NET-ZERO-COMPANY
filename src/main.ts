@@ -1,4 +1,5 @@
 import './styles.css';
+import './navbar-fixes.css';
 
 const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
 const mobileNav = document.querySelector<HTMLDivElement>('#mobileNav');
