@@ -1,4 +1,5 @@
 import './styles.css';
+import { renderHome } from './pages/Home';
 
 const normalizeRoute = () => {
   const path = location.hash.replace(/^#/, '') || '/';
@@ -12,6 +13,18 @@ const normalizeRoute = () => {
     return true;
   }
   return false;
+};
+
+const isHomeRoute = () => {
+  const path = location.hash.replace(/^#/, '') || '/';
+  return path === '/' || path === '';
+};
+
+const mountHomePage = () => {
+  if (!isHomeRoute()) return;
+  const currentHome = document.querySelector<HTMLElement>('#app > main#top');
+  const replacement = document.createRange().createContextualFragment(renderHome()).firstElementChild;
+  if (currentHome && replacement) currentHome.replaceWith(replacement);
 };
 
 const attachFixes = () => {
@@ -48,17 +61,23 @@ const attachFixes = () => {
   });
 };
 
+const refreshHome = () => {
+  setTimeout(() => {
+    mountHomePage();
+    attachFixes();
+  }, 0);
+};
+
 const boot = async () => {
   const changed = normalizeRoute();
   await import('./main');
-  attachFixes();
   if (changed) window.dispatchEvent(new HashChangeEvent('hashchange'));
+  mountHomePage();
+  attachFixes();
   window.addEventListener('hashchange', () => {
-    setTimeout(() => {
-      const changedAgain = normalizeRoute();
-      if (changedAgain) window.dispatchEvent(new HashChangeEvent('hashchange'));
-      attachFixes();
-    }, 0);
+    const changedAgain = normalizeRoute();
+    if (changedAgain) window.dispatchEvent(new HashChangeEvent('hashchange'));
+    refreshHome();
   });
 };
 
