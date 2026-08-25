@@ -1,87 +1,168 @@
 import './styles.css';
-import './navbar-fixes.css';
 
-const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
-const mobileNav = document.querySelector<HTMLDivElement>('#mobileNav');
+type Product = { id:string; name:string; category:string; description:string; imageClass:string; models:string[]; featured:boolean; specs:Record<string,string> };
+type Service = { id:string; name:string; description:string; steps:string[]; related:string[] };
+type Job = { id:string; title:string; department:string; location:string; type:string; description:string; requirements:string[] };
+type Training = { id:string; title:string; description:string; schedule:string; eligibility:string };
+type Article = { id:string; title:string; category:string; excerpt:string; body:string; date:string; read:string };
 
-const setMenu = (open: boolean) => {
-  if (!menuToggle || !mobileNav) return;
-  menuToggle.setAttribute('aria-expanded', String(open));
-  menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
-  mobileNav.hidden = !open;
-};
+const products: Product[] = [
+  {id:'powercore-x',name:'NZ PowerCore X',category:'Power',description:'Commercial conversion platform with modular architecture for demanding energy environments.',imageClass:'art-power',models:['PCX-50','PCX-100','PCX-250'],featured:true,specs:{Capacity:'50–250 kW','Efficiency':'98.7%','Ingress':'IP65','Cooling':'Active'}} ,
+  {id:'store-m',name:'NZ Store M',category:'Storage',description:'Flexible energy storage designed for commercial and industrial sites.',imageClass:'art-storage',models:['STM-100','STM-250','STM-500'],featured:true,specs:{Capacity:'100–500 kWh','Chemistry':'LFP','Cycle life':'>6000','Ingress':'IP54'}},
+  {id:'flow-hub',name:'NZ Flow Hub',category:'Control',description:'Monitoring, control and energy orchestration layer for connected sites.',imageClass:'art-control',models:['FH-Core','FH-Pro'],featured:true,specs:{Channels:'128','Connectivity':'Ethernet / LTE','Protocol':'Modbus / MQTT','Cloud':'Optional'}},
+  {id:'solar-edge',name:'NZ SolarEdge',category:'Generation',description:'Commercial PV integration package built for reliable site generation.',imageClass:'art-solar',models:['SE-25','SE-50'],featured:false,specs:{Input:'DC 1,000 V','Topology':'Three-phase','Efficiency':'98.5%','Warranty':'10 years'}}
+];
 
-menuToggle?.addEventListener('click', () => {
-  setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
-});
+const services: Service[] = [
+  {id:'engineering',name:'Engineering & Consulting',description:'System design, sizing, feasibility and technical planning from concept to commissioning.',steps:['Discovery & site survey','System sizing & engineering','Technical design review','Implementation plan'],related:['powercore-x','store-m']},
+  {id:'installation',name:'Installation & Commissioning',description:'Field-ready deployment with structured installation, testing and commissioning workflows.',steps:['Pre-installation checklist','Equipment installation','Testing & commissioning','Handover documentation'],related:['powercore-x','flow-hub']},
+  {id:'maintenance',name:'Maintenance & Support',description:'Lifecycle care, diagnostics, preventive maintenance and technical support.',steps:['Remote monitoring','Preventive maintenance','Diagnostics','Corrective service'],related:['powercore-x','store-m','flow-hub']},
+  {id:'training-service',name:'Training & Enablement',description:'Practical programs for customers, partners and technical teams.',steps:['Training needs analysis','Course planning','Hands-on delivery','Assessment & certification'],related:['flow-hub']}
+];
 
-mobileNav?.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
-  link.addEventListener('click', () => setMenu(false));
-});
+const jobs: Job[] = [
+  {id:'design-engineer',title:'Design Engineer',department:'Engineering',location:'Cairo, Egypt',type:'Full time',description:'Own electrical and energy-system design packages across commercial and industrial projects.',requirements:['3+ years engineering experience','Strong electrical fundamentals','AutoCAD or equivalent','Excellent documentation skills']},
+  {id:'field-specialist',title:'Field Service Specialist',department:'Service',location:'Cairo / Field',type:'Full time',description:'Deliver installation support, commissioning and lifecycle service for Net Zero solutions.',requirements:['Field service experience','Comfort with site work','Troubleshooting mindset','Strong customer communication']},
+  {id:'content-specialist',title:'Technical Content Specialist',department:'Marketing',location:'Hybrid',type:'Full time',description:'Translate technical products and services into clear digital content, articles and datasheets.',requirements:['Technical writing experience','Strong English','CMS familiarity','Attention to detail']}
+];
 
-let observer: IntersectionObserver | null = null;
-if ('IntersectionObserver' in window) {
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer?.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
+const trainings: Training[] = [
+  {id:'energy-fundamentals',title:'Energy Systems Fundamentals',description:'A practical introduction to energy conversion, storage, monitoring and system architecture.',schedule:'4 weeks · 2 sessions/week',eligibility:'Engineers, graduates and technical professionals'},
+  {id:'field-commissioning',title:'Field Commissioning Bootcamp',description:'Hands-on training for commissioning workflows, diagnostics and safe site handover.',schedule:'5 days · On-site',eligibility:'Service engineers and technicians'},
+  {id:'flow-hub-academy',title:'Flow Hub Academy',description:'Learn monitoring, alarms, dashboards and energy orchestration using the Flow Hub platform.',schedule:'3 days · Lab-based',eligibility:'Customers, partners and support teams'}
+];
+
+const articles: Article[] = [
+  {id:'resilient-energy',title:'Designing resilient energy systems for growing operations',category:'Energy',excerpt:'How modern industrial sites can build flexibility, reliability and measurable performance into their energy layer.',body:'Resilient energy systems combine generation, storage, conversion and control around clear operating goals. The first step is understanding the site profile, constraints and critical loads. From there, engineering can create a modular architecture that balances efficiency, redundancy and maintainability.',date:'18 Aug 2026',read:'4 min read'},
+  {id:'product-to-field',title:'From product model to measurable field performance',category:'Engineering',excerpt:'Why structured product and model data creates better handovers, faster support and clearer technical decisions.',body:'A product catalog is more powerful when every model carries structured specifications, documentation and lifecycle context. That same information can support engineering decisions before installation and service decisions after commissioning.',date:'12 Aug 2026',read:'6 min read'},
+  {id:'training-platform',title:'Why training belongs inside the energy platform',category:'People',excerpt:'Technical enablement is not an add-on. It is part of product adoption, safety and long-term performance.',body:'Training turns technical capability into operational confidence. By linking programs to products and services, organizations can create a clear path from introduction to advanced support and measurable competence.',date:'05 Aug 2026',read:'3 min read'},
+  {id:'storage-trends',title:'What industrial storage buyers should compare',category:'Energy',excerpt:'A practical framework for comparing capacity, cycle life, controls, safety and serviceability.',body:'Storage decisions should compare more than nameplate capacity. Useful evaluation includes cycling assumptions, thermal management, protection, controls, service model and the quality of technical documentation delivered with the system.',date:'29 Jul 2026',read:'5 min read'}
+];
+
+const app = document.querySelector<HTMLDivElement>('#app')!;
+let search = '';
+
+const nav = () => `
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="#/" aria-label="Net Zero home"><img src="/logo.png" alt="Net Zero Company" class="brand-logo" width="96" height="56"></a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#/products">Products</a><a href="#/services">Services</a><a href="#/company">Company</a><a href="#/careers">Careers</a><a href="#/insights">Insights</a>
+    </nav>
+    <a class="nav-cta" href="#/contact">Talk to us <span>↗</span></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Open navigation">☰</button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden>
+    <a href="#/products">Products</a><a href="#/services">Services</a><a href="#/company">Company</a><a href="#/careers">Careers</a><a href="#/insights">Insights</a><a href="#/contact">Talk to us ↗</a>
+  </nav>
+</header>`;
+
+const footer = () => `
+<footer class="site-footer"><div class="container footer-grid">
+  <div><img src="/logo.png" alt="Net Zero" class="footer-logo" width="90" height="54"><p>Industrial energy systems, engineered for the next operating standard.</p></div>
+  <div><span class="footer-label">Explore</span><a href="#/products">Products</a><a href="#/services">Services</a><a href="#/careers">Careers</a><a href="#/training">Training</a></div>
+  <div><span class="footer-label">Resources</span><a href="#/insights">Insights</a><a href="#/company">Company</a><a href="#/contact">Contact</a></div>
+  <div><span class="footer-label">UI Prototype</span><a href="#/admin">Admin CMS</a><a href="#/admin/applications">Applications Inbox</a></div>
+</div><div class="container footer-bottom"><span>© ${new Date().getFullYear()} Net Zero Company</span><span>Corporate Website UI · API-ready mock data</span></div></footer>`;
+
+const page = (title:string, kicker:string, body:string, dark=false) => `<main class="page-shell ${dark?'page-dark':''}
+"><section class="page-hero"><div class="container"><div class="eyebrow"><span class="dot"></span>${kicker}</div><h1>${title}</h1></div></section>${body}</main>`;
+
+const productCard = (p:Product) => `<article class="catalog-card"><div class="catalog-art ${p.imageClass}"><span class="art-code">NZ / ${p.category.toUpperCase()}</span></div><div class="catalog-content"><span class="tag">${p.category}</span><h3>${p.name}</h3><p>${p.description}</p><div class="chip-row">${p.models.map(m=>`<span class="chip">${m}</span>`).join('')}</div><a class="inline-link" href="#/product/${p.id}">Explore product <span>↗</span></a></div></article>`;
+const serviceCard = (s:Service) => `<article class="service-card"><span class="index">${String(services.indexOf(s)+1).padStart(2,'0')}</span><h3>${s.name}</h3><p>${s.description}</p><a class="inline-link" href="#/service/${s.id}">View service <span>↗</span></a></article>`;
+const jobCard = (j:Job) => `<article class="job-card"><div><span class="tag">${j.department}</span><h3>${j.title}</h3><p>${j.description}</p></div><div class="job-meta"><span>${j.location}</span><span>${j.type}</span></div><a class="btn btn-dark" href="#/job/${j.id}">View role ↗</a></article>`;
+const articleCard = (a:Article) => `<article class="article-card"><div class="article-visual"><span>${a.category}</span><b>NZ</b></div><div class="article-body"><div class="article-meta"><span>${a.date}</span><span>${a.read}</span></div><h3>${a.title}</h3><p>${a.excerpt}</p><a class="inline-link" href="#/article/${a.id}">Read article <span>↗</span></a></div></article>`;
+
+function home(){
+  return `<main id="top">
+  <section class="hero section"><div class="energy-grid"></div><div class="container hero-grid"><div class="hero-copy reveal"><div class="eyebrow"><span class="dot"></span>Industrial energy systems · Net Zero</div><h1>Energy,<br><span>Engineered.</span></h1><p class="hero-lead">A connected corporate platform for factory products, field services, technical training, careers and industrial insight.</p><div class="hero-actions"><a class="btn btn-primary" href="#/products">Explore products ↗</a><a class="text-link" href="#/company">Discover Net Zero →</a></div><div class="hero-meta"><span>Manufacturing</span><span>Engineering</span><span>Service</span></div></div><div class="hero-visual reveal reveal-delay"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="core-card"><div class="core-topline"><span>NET ZERO / CORE</span><span>01 — 04</span></div><div class="core-mark">NZ<span>+</span></div><div class="core-title">Powering a measurable future.</div><div class="core-bottom"><span>Energy flow</span><i class="pulse"></i><strong>98.7%</strong></div></div><div class="floating-chip chip-1">PV Systems ↗</div><div class="floating-chip chip-2">Industrial Automation</div></div></div></section>
+  <section class="proof-strip"><div class="container proof-grid"><div><strong>04</strong><span>Business pillars</span></div><div><strong>24/7</strong><span>Operational mindset</span></div><div><strong>01</strong><span>Unified platform</span></div><div><strong>∞</strong><span>Built to scale</span></div></div></section>
+  <section class="section"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Factory & Products</div><h2>Products with <span>models built in.</span></h2></div><a class="text-link" href="#/products">View catalog →</a></div><div class="catalog-grid">${products.filter(p=>p.featured).slice(0,3).map(productCard).join('')}</div></div></section>
+  <section class="section section-soft"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Company & Services</div><h2>One partner.<br><span>Every stage.</span></h2></div><a class="text-link" href="#/services">View services →</a></div><div class="service-grid">${services.slice(0,4).map(serviceCard).join('')}</div></div></section>
+  <section class="section"><div class="container feature-band"><div><div class="eyebrow"><span class="dot"></span>Careers & Training</div><h2>Build the systems<br>that power <span>tomorrow.</span></h2><p>Explore open roles and practical training programs for engineers, technicians, partners and future leaders.</p><a class="btn btn-dark" href="#/careers">Explore careers ↗</a></div><div class="feature-list">${jobs.slice(0,3).map(j=>`<a href="#/job/${j.id}"><span>${j.title}</span><small>${j.department} · ${j.location}</small><b>→</b></a>`).join('')}</div></div></section>
+  <section class="section section-dark"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Articles & Insights</div><h2>Ideas that move <span>industry.</span></h2></div><a class="text-link" href="#/insights">View all →</a></div><div class="article-grid">${articles.slice(0,3).map(articleCard).join('')}</div></div></section>
+  <section class="section contact-section"><div class="container contact-card"><div><div class="eyebrow"><span class="dot"></span>Start a conversation</div><h2>Let’s build the next<br><span>energy layer.</span></h2></div><div><p>Products, services, partnerships or careers — tell us what you are building.</p><a class="btn btn-primary" href="#/contact">Talk to Net Zero ↗</a></div></div></section></main>`;
 }
 
-document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => {
-  if (observer) observer.observe(el);
-  else el.classList.add('is-visible');
-});
+function productsPage(){
+  const filtered = products.filter(p => !search || `${p.name} ${p.category}`.toLowerCase().includes(search.toLowerCase()));
+  return page('Factory & Products','Product catalog',`<section class="section"><div class="container"><div class="toolbar"><div class="search-box"><span>⌕</span><input id="product-search" value="${search}" placeholder="Search products or categories..."></div><div class="segmented"><button class="active">All</button><button>Power</button><button>Storage</button><button>Control</button></div></div><div class="catalog-grid">${filtered.map(productCard).join('')}</div></div></section>`);
+}
 
-const filters = document.querySelectorAll<HTMLButtonElement>('.filter');
-const productCards = document.querySelectorAll<HTMLElement>('.product-card');
+function productDetail(id:string){
+  const p=products.find(x=>x.id===id)??products[0];
+  return page(p.name,`${p.category} · Product detail`,`<section class="section"><div class="container detail-grid"><div class="detail-art ${p.imageClass}"><span class="art-code">${p.category.toUpperCase()} / ${p.name}</span></div><div class="detail-copy"><span class="tag">${p.category}</span><h2>Built for <span>field performance.</span></h2><p>${p.description}</p><div class="spec-grid">${Object.entries(p.specs).map(([k,v])=>`<div><span>${k}</span><strong>${v}</strong></div>`).join('')}</div><div class="detail-actions"><a class="btn btn-primary" href="#/contact">Request information ↗</a><button class="btn btn-outline">Download datasheet ↓</button></div></div></div></section><section class="section section-soft"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Models</div><h2>Choose your <span>configuration.</span></h2></div></div><div class="model-grid">${p.models.map((m,i)=>`<a class="model-card" href="#/model/${p.id}/${i}"><span>MODEL ${String(i+1).padStart(2,'0')}</span><h3>${m}</h3><p>${Object.values(p.specs)[i%Object.values(p.specs).length]}</p><b>View model ↗</b></a>`).join('')}</div></div></section><section class="section"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Related services</div><h2>Keep performance <span>on track.</span></h2></div></div><div class="service-grid">${services.filter(s=>s.related.includes(p.id)).map(serviceCard).join('')}</div></div></section>`);
+}
 
-filters.forEach((filter) => {
-  filter.addEventListener('click', () => {
-    const category = filter.dataset.filter ?? 'all';
-    filters.forEach((button) => {
-      const active = button === filter;
-      button.classList.toggle('active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
+function modelDetail(productId:string,indexStr:string){
+  const p=products.find(x=>x.id===productId)??products[0]; const index=Number(indexStr)||0; const model=p.models[index]??p.models[0];
+  return page(model,`${p.name} · Model detail`,`<section class="section"><div class="container"><div class="detail-grid"><div class="detail-art art-model"><span class="art-code">MODEL / ${model}</span><strong>${model}</strong></div><div class="detail-copy"><div class="eyebrow"><span class="dot"></span>Structured specifications</div><h2>${model} <span>technical profile.</span></h2><p>Structured model data keeps technical specifications readable, comparable and ready for future filtering or API integration.</p><div class="spec-table">${Object.entries({...p.specs,Model:model,Availability:'Available',Certification:'CE / IEC'}).map(([k,v])=>`<div><span>${k}</span><strong>${v}</strong></div>`).join('')}</div><a class="btn btn-primary" href="#/contact">Ask about this model ↗</a></div></div></div></section>`);
+}
 
-    productCards.forEach((card) => {
-      const matches = category === 'all' || card.dataset.category === category;
-      card.classList.toggle('is-hidden', !matches);
-    });
-  });
-  filter.setAttribute('aria-pressed', String(filter.classList.contains('active')));
-});
+function companyPage(){ return page('About Net Zero','Company',`<section class="section"><div class="container split-grid"><div><h2>A group designed around <span>delivery.</span></h2></div><div><p class="large-copy">Net Zero brings factory capability, engineering expertise and field services under one digital roof — helping customers move from specification to operation without losing momentum.</p><div class="metric-row"><div><strong>04</strong><span>Business pillars</span></div><div><strong>01</strong><span>Unified platform</span></div><div><strong>∞</strong><span>Built to scale</span></div></div></div></div></section><section class="section section-soft"><div class="container"><div class="story-grid"><div><span class="big-number">01</span><h3>Manufacture</h3><p>Products and models designed with practical field conditions in mind.</p></div><div><span class="big-number">02</span><h3>Deploy</h3><p>Engineering, installation and commissioning delivered through connected workflows.</p></div><div><span class="big-number">03</span><h3>Support</h3><p>Maintenance, technical support and training across the product lifecycle.</p></div></div></div></section>`); }
+function servicesPage(){ return page('Company & Services','Services',`<section class="section"><div class="container"><div class="service-grid service-grid-large">${services.map(serviceCard).join('')}</div></div></section>`); }
+function serviceDetail(id:string){ const s=services.find(x=>x.id===id)??services[0]; return page(s.name,'Service detail',`<section class="section"><div class="container detail-grid"><div class="service-hero-art"><span>NZ / SERVICE</span><strong>${String(services.indexOf(s)+1).padStart(2,'0')}</strong></div><div class="detail-copy"><h2>${s.description}</h2><div class="steps">${s.steps.map((x,i)=>`<div><span>0${i+1}</span><p>${x}</p></div>`).join('')}</div><a class="btn btn-primary" href="#/contact">Request a service ↗</a></div></div></section><section class="section section-soft"><div class="container"><h2>Related <span>products.</span></h2><div class="catalog-grid">${s.related.map(id=>productCard(products.find(p=>p.id===id)??products[0])).join('')}</div></div></section>`); }
+function careersPage(){ return page('Careers & Training','People',`<section class="section"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Open positions</div><h2>Find your next <span>role.</span></h2></div><span class="muted">${jobs.length} open positions</span></div><div class="job-grid">${jobs.map(jobCard).join('')}</div></div></section><section class="section section-soft"><div class="container"><div class="section-head"><div><div class="eyebrow"><span class="dot"></span>Training Academy</div><h2>Learn. Practice. <span>Lead.</span></h2></div><a class="text-link" href="#/training">View programs →</a></div><div class="training-grid">${trainings.map(t=>`<article class="training-card"><span class="tag">Academy</span><h3>${t.title}</h3><p>${t.description}</p><small>${t.schedule}</small><a href="#/training/${t.id}" class="inline-link">View program ↗</a></article>`).join('')}</div></div></section>`); }
+function jobDetail(id:string){ const j=jobs.find(x=>x.id===id)??jobs[0]; return page(j.title,'Careers · Job detail',`<section class="section"><div class="container detail-grid"><div><span class="tag">${j.department}</span><h2>${j.description}</h2><div class="job-meta large"><span>${j.location}</span><span>${j.type}</span></div><h3>Requirements</h3><ul class="check-list">${j.requirements.map(x=>`<li>${x}</li>`).join('')}</ul><a class="btn btn-primary" href="#/apply/${j.id}">Apply for this role ↗</a></div><aside class="aside-card"><span>JOB CODE</span><strong>${j.id.toUpperCase()}</strong><small>Applications reviewed weekly</small></aside></div></section>`); }
+function applyPage(jobId?:string){ const j=jobs.find(x=>x.id===jobId); return page(j?`Apply — ${j.title}`:'Job application','Application',`<section class="section"><div class="container form-layout"><form class="form-card" data-demo-form><div class="form-grid"><label>Full name<input required placeholder="Your name"></label><label>Email<input required type="email" placeholder="you@example.com"></label><label>Phone<input placeholder="+20"></label><label>Role<input value="${j?.title??''}" placeholder="Select a role"></label><label class="full">Cover note<textarea rows="6" placeholder="Tell us about your experience"></textarea></label><label class="full upload">CV / Resume<input type="file" accept=".pdf,.doc,.docx"></label></div><button class="btn btn-primary" type="submit">Submit application ↗</button><p class="form-note">UI prototype only — submission will be connected to the API later.</p></form><aside class="aside-card"><span>APPLICATION FLOW</span><strong>01 → 04</strong><small>New · Shortlisted · Rejected · Hired</small></aside></div></section>`); }
+function trainingPage(){ return page('Training Programs','Academy',`<section class="section"><div class="container"><div class="training-grid">${trainings.map(t=>`<article class="training-card"><span class="tag">Training</span><h3>${t.title}</h3><p>${t.description}</p><div class="training-meta"><span>${t.schedule}</span><span>${t.eligibility}</span></div><a class="btn btn-dark" href="#/training/${t.id}">View program ↗</a></article>`).join('')}</div></div></section>`); }
+function trainingDetail(id:string){ const t=trainings.find(x=>x.id===id)??trainings[0]; return page(t.title,'Training program',`<section class="section"><div class="container detail-grid"><div><div class="eyebrow"><span class="dot"></span>${t.schedule}</div><h2>${t.description}</h2><div class="info-block"><span>Eligibility</span><strong>${t.eligibility}</strong></div><a class="btn btn-primary" href="#/training/${t.id}/register">Register interest ↗</a></div><aside class="aside-card"><span>PROGRAM STATUS</span><strong>OPEN</strong><small>Limited seats · Next cohort announced monthly</small></aside></div></section>`); }
+function trainingRegister(id:string){ const t=trainings.find(x=>x.id===id)??trainings[0]; return page(`Register — ${t.title}`,'Training registration',`<section class="section"><div class="container form-layout"><form class="form-card" data-demo-form><label>Full name<input required></label><label>Email<input required type="email"></label><label>Phone<input></label><label>Company / Organization<input></label><label>Program<input value="${t.title}"></label><label>Message<textarea rows="5"></textarea></label><button class="btn btn-primary">Register interest ↗</button><p class="form-note">UI prototype only — email/API flow will be wired later.</p></form></div></section>`); }
+function insightsPage(){ return page('Articles & Insights','Knowledge hub',`<section class="section"><div class="container"><div class="toolbar"><div class="search-box"><span>⌕</span><input id="article-search" value="${search}" placeholder="Search articles..."></div><div class="tag-row">${['All','Energy','Engineering','People'].map((x,i)=>`<button class="filter-light ${i===0?'active':''}">${x}</button>`).join('')}</div></div><div class="article-grid article-grid-4">${articles.filter(a=>!search||`${a.title} ${a.category}`.toLowerCase().includes(search.toLowerCase())).map(articleCard).join('')}</div></div></section>`); }
+function articleDetail(id:string){ const a=articles.find(x=>x.id===id)??articles[0]; return page(a.title,`${a.category} · ${a.date}`,`<section class="section"><div class="container article-detail"><div class="article-cover"><span>${a.category}</span><b>NZ</b></div><div class="article-prose"><p class="lead">${a.excerpt}</p><p>${a.body}</p><h3>Key takeaways</h3><ul class="check-list"><li>Use structured data to make technical decisions clearer.</li><li>Connect product information to service and lifecycle workflows.</li><li>Design every customer touchpoint for performance and trust.</li></ul><div class="share-row"><span>Share article</span><button>LinkedIn</button><button>Facebook</button><button>Copy link</button></div></div></div></section><section class="section section-soft"><div class="container"><h2>Related <span>insights.</span></h2><div class="article-grid">${articles.filter(x=>x.id!==a.id).slice(0,3).map(articleCard).join('')}</div></div></section>`); }
+function contactPage(){ return page('Let’s build the next energy layer.','Contact',`<section class="section"><div class="container contact-layout"><div><h2>Tell us what you are <span>building.</span></h2><p class="large-copy">Products, services, partnerships or careers — our team can help you find the right next step.</p><div class="contact-points"><div><span>Email</span><strong>hello@netzero.example</strong></div><div><span>Phone</span><strong>+20 100 000 0000</strong></div><div><span>Location</span><strong>Cairo, Egypt</strong></div></div></div><form class="form-card" data-demo-form><label>Name<input required></label><label>Company<input></label><label>Email<input required type="email"></label><label>Topic<select><option>Products</option><option>Services</option><option>Careers</option><option>Partnerships</option></select></label><label>Message<textarea required rows="6"></textarea></label><button class="btn btn-primary">Send inquiry ↗</button><p class="form-note">UI prototype only — lead will be saved through the future CMS/API.</p></form></div></section>`); }
 
-const header = document.querySelector<HTMLElement>('.site-header');
-let lastScroll = window.scrollY;
-let ticking = false;
+const adminNav = ['dashboard','products','models','services','jobs','applications','training','articles','media','leads','settings'];
+const adminLinks = adminNav.map(x=>`<a href="#/admin/${x}" class="admin-link"><span>${({dashboard:'⌂',products:'▣',models:'◇',services:'◒',jobs:'◌',applications:'✓',training:'◉',articles:'✦',media:'▤',leads:'✉',settings:'⚙'} as Record<string,string>)[x]}</span>${x[0].toUpperCase()+x.slice(1)}</a>`).join('');
+function adminShell(content:string,title='Dashboard'){ return `<main class="admin-shell"><aside class="admin-sidebar"><a class="admin-brand" href="#/admin"><img src="/logo.png" alt="Net Zero"><span>CMS Prototype</span></a><nav>${adminLinks}</nav><a href="#/" class="admin-exit">← Public site</a></aside><section class="admin-content"><header class="admin-top"><div><span class="eyebrow"><span class="dot"></span>Admin UI</span><h1>${title}</h1></div><div class="admin-user"><span>MS</span><div><strong>Admin User</strong><small>Administrator</small></div></div></header>${content}</section></main>`; }
+function adminDashboard(){ return adminShell(`<div class="admin-stats"><div><span>Products</span><strong>${products.length}</strong><small>+2 this month</small></div><div><span>Open jobs</span><strong>${jobs.length}</strong><small>12 applicants</small></div><div><span>Articles</span><strong>${articles.length}</strong><small>2 drafts</small></div><div><span>Leads</span><strong>18</strong><small>5 new today</small></div></div><div class="admin-grid-2"><div class="admin-card"><div class="admin-card-head"><h3>Recent activity</h3><a href="#/admin/applications">View all</a></div>${['Product model PCX-250 updated','New job application received','Article published','Training registration created'].map((x,i)=>`<div class="activity"><span>0${i+1}</span><div><strong>${x}</strong><small>${i+2} hours ago</small></div></div>`).join('')}</div><div class="admin-card"><div class="admin-card-head"><h3>Publishing status</h3></div><div class="status-bars"><div><span>Published</span><b><i style="width:78%"></i></b><strong>78%</strong></div><div><span>Draft</span><b><i style="width:15%"></i></b><strong>15%</strong></div><div><span>Review</span><b><i style="width:7%"></i></b><strong>7%</strong></div></div></div></div>`); }
+function adminList(kind:string){ const data = kind==='products'?products.map(x=>[x.name,x.category,x.featured?'Featured':'Standard','Published']):kind==='jobs'?jobs.map(x=>[x.title,x.department,x.location,'Open']):kind==='articles'?articles.map(x=>[x.title,x.category,x.date,'Published']):kind==='services'?services.map(x=>[x.name,'Service','4 steps','Published']):kind==='training'?trainings.map(x=>[x.title,'Academy',x.schedule,'Open']):[['PCX-50','NZ PowerCore X','50–250 kW','Available'],['PCX-100','NZ PowerCore X','50–250 kW','Available'],['FH-Pro','NZ Flow Hub','128 channels','Available']]; return adminShell(`<div class="admin-toolbar"><div class="search-box"><span>⌕</span><input placeholder="Search ${kind}..."></div><a class="btn btn-dark" href="#/admin/${kind}/new">+ Add ${kind.slice(0,-1)}</a></div><div class="admin-card table-wrap"><table><thead><tr><th>Name</th><th>Category</th><th>Details</th><th>Status</th><th></th></tr></thead><tbody>${data.map((row,i)=>`<tr>${row.map(c=>`<td>${c}</td>`).join('')}<td><button class="table-action">Edit</button></td></tr>`).join('')}</tbody></table></div>`,kind[0].toUpperCase()+kind.slice(1)); }
+function adminApplications(){ return adminShell(`<div class="admin-tabs"><button class="active">All</button><button>New</button><button>Shortlisted</button><button>Rejected</button><button>Hired</button></div><div class="admin-card table-wrap"><table><thead><tr><th>Applicant</th><th>Role</th><th>Submitted</th><th>Status</th><th></th></tr></thead><tbody>${['Ahmed Hassan','Mariam Ali','Omar Khaled','Sara Nabil'].map((n,i)=>`<tr><td><strong>${n}</strong><small>${n.toLowerCase().replace(' ','_')}@example.com</small></td><td>${jobs[i%jobs.length].title}</td><td>Aug ${18-i}, 2026</td><td><span class="status-pill ${i===0?'new':''}">${['New','Shortlisted','Rejected','New'][i]}</span></td><td><button class="table-action">Review</button></td></tr>`).join('')}</tbody></table></div>`,'Applications Inbox'); }
+function adminMedia(){ return adminShell(`<div class="admin-toolbar"><div><p class="muted">Reusable images, datasheets and CV files.</p></div><button class="btn btn-dark">+ Upload file</button></div><div class="media-grid">${Array.from({length:8},(_,i)=>`<div class="media-item"><div class="media-thumb"><span>NZ</span></div><strong>asset-${i+1}.jpg</strong><small>2.${i+1} MB · image/jpeg</small></div>`).join('')}</div>`,'Media Library'); }
+function adminSettings(){ return adminShell(`<form class="admin-card form-card" data-demo-form><div class="section-head compact"><div><div class="eyebrow"><span class="dot"></span>Homepage configuration</div><h2>Global content</h2></div></div><div class="form-grid"><label>Company name<input value="Net Zero Company"></label><label>Primary email<input value="hello@netzero.example"></label><label class="full">Hero headline<textarea rows="3">Energy, Engineered.</textarea></label><label>Meta title<input value="Net Zero — Energy, Engineered."></label><label>Meta description<input value="Industrial energy products, services, careers and insights."></label><label class="full upload">Social share image<input type="file"></label></div><button class="btn btn-primary">Save changes</button><p class="form-note">UI only — persistence will be handled by the CMS/API later.</p></form>`,'Settings'); }
 
-const updateHeader = () => {
-  const current = window.scrollY;
-  header?.classList.toggle('scrolled', current > 16);
-  if (header && window.matchMedia('(min-width: 981px)').matches) {
-    header.style.transform = current > lastScroll && current > 120 ? 'translateY(-100%)' : 'translateY(0)';
-  } else if (header) {
-    header.style.transform = 'translateY(0)';
+function render(){
+  const hash=location.hash.replace(/^#/,'')||'/';
+  const parts=hash.split('/').filter(Boolean);
+  let content='';
+  if(parts[0]==='admin'){
+    if(!parts[1]) content=adminDashboard();
+    else if(parts[1]==='applications') content=adminApplications();
+    else if(parts[1]==='media') content=adminMedia();
+    else if(parts[1]==='settings') content=adminSettings();
+    else content=adminList(parts[1]);
+    app.innerHTML=content;
+    bindGlobal(); return;
   }
-  lastScroll = current;
-  ticking = false;
-};
+  if(parts[0]==='products') content=productsPage();
+  else if(parts[0]==='product') content=productDetail(parts[1]);
+  else if(parts[0]==='model') content=modelDetail(parts[1],parts[2]??'0');
+  else if(parts[0]==='company') content=companyPage();
+  else if(parts[0]==='services') content=servicesPage();
+  else if(parts[0]==='service') content=serviceDetail(parts[1]);
+  else if(parts[0]==='careers') content=careersPage();
+  else if(parts[0]==='job') content=jobDetail(parts[1]);
+  else if(parts[0]==='apply') content=applyPage(parts[1]);
+  else if(parts[0]==='training') content=parts[1]==='register'?trainingRegister(parts[2]):parts[1]?trainingDetail(parts[1]):trainingPage();
+  else if(parts[0]==='insights') content=insightsPage();
+  else if(parts[0]==='article') content=articleDetail(parts[1]);
+  else if(parts[0]==='contact') content=contactPage();
+  else content=home();
+  app.innerHTML=nav()+content+footer();
+  bindGlobal(); window.scrollTo({top:0,behavior:'instant'});
+}
 
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    window.requestAnimationFrame(updateHeader);
-    ticking = true;
-  }
-}, { passive: true });
+function bindGlobal(){
+  const menu=document.querySelector<HTMLButtonElement>('.menu-toggle'); const mobile=document.querySelector<HTMLElement>('#mobileNav');
+  const toggle=(open:boolean)=>{if(!menu||!mobile)return;menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'×':'☰';mobile.hidden=!open;};
+  menu?.addEventListener('click',()=>toggle(menu.getAttribute('aria-expanded')!=='true'));
+  mobile?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggle(false)));
+  document.querySelectorAll<HTMLElement>('.reveal').forEach(el=>requestAnimationFrame(()=>el.classList.add('is-visible')));
+  const productSearch=document.querySelector<HTMLInputElement>('#product-search'); if(productSearch) productSearch.addEventListener('input',()=>{search=productSearch.value; render();});
+  const articleSearch=document.querySelector<HTMLInputElement>('#article-search'); if(articleSearch) articleSearch.addEventListener('input',()=>{search=articleSearch.value; render();});
+  document.querySelectorAll<HTMLFormElement>('[data-demo-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault(); form.innerHTML='<div class="success-state"><span>✓</span><h3>Thank you.</h3><p>Your information has been captured in this UI prototype.</p><a class="btn btn-dark" href="#/">Back to home</a></div>';}));
+  window.addEventListener('scroll',()=>document.querySelector('.site-header')?.classList.toggle('scrolled',window.scrollY>20),{passive:true});
+}
 
-window.addEventListener('resize', () => {
-  if (window.matchMedia('(min-width: 981px)').matches) setMenu(false);
-}, { passive: true });
-
-const yearTargets = document.querySelectorAll<HTMLElement>('[data-year]');
-yearTargets.forEach((el) => { el.textContent = String(new Date().getFullYear()); });
+window.addEventListener('hashchange',()=>{search='';render();});
+render();
