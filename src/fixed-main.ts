@@ -1,6 +1,14 @@
 import './styles.css';
 import { renderHome } from './pages/Home';
 
+const ensureHomeRoute = () => {
+  if (!location.hash) {
+    history.replaceState(null, '', `${location.pathname}${location.search}#/`);
+    return true;
+  }
+  return false;
+};
+
 const normalizeRoute = () => {
   const path = location.hash.replace(/^#/, '') || '/';
   const parts = path.split('/').filter(Boolean);
@@ -28,7 +36,7 @@ const mountHomePage = () => {
 };
 
 const addHomeNavLink = () => {
-  const addLink = (selector: string, mobile = false) => {
+  const addLink = (selector: string) => {
     const nav = document.querySelector<HTMLElement>(selector);
     if (!nav || nav.querySelector('a[href="#/"]')) return;
 
@@ -36,16 +44,11 @@ const addHomeNavLink = () => {
     link.href = '#/';
     link.textContent = 'Home';
     link.setAttribute('aria-label', 'Home');
-
-    if (mobile) {
-      nav.prepend(link);
-    } else {
-      nav.prepend(link);
-    }
+    nav.prepend(link);
   };
 
   addLink('.desktop-nav');
-  addLink('#mobileNav', true);
+  addLink('#mobileNav');
 };
 
 const attachFixes = () => {
@@ -92,6 +95,7 @@ const refreshHome = () => {
 };
 
 const boot = async () => {
+  ensureHomeRoute();
   const changed = normalizeRoute();
   await import('./main');
   if (changed) window.dispatchEvent(new HashChangeEvent('hashchange'));
